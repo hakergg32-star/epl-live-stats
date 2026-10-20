@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Match Prediction AI</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            margin-top: 20px;
+        }
+        h1 {
+            color: #38bdf8;
+            text-align: center;
+            font-size: 24px;
+        }
+        .status-box {
+            background: #334155;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .btn {
+            background: #0284c7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #0369a1;
+        }
+        .prediction-result {
+            margin-top: 20px;
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #38bdf8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>⚽ Football Match Prediction AI</h1>
+        
+        <div class="status-box" id="server-status">
+            Checking server status...
+        </div>
+
+        <button class="btn" onclick="getPrediction()">ပွဲစဉ်ခန့်မှန်းချက် ကြည့်ရန်</button>
+
+        <div class="prediction-result" id="result-box" style="display: none;">
+            <h3>ခန့်မှန်းချက် ရလဒ်များ:</h3>
+            <p id="prediction-text">ခဏစောင့်ပါ...</p>
+        </div>
+    </div>
+
+    <script>
+        // Server Status စစ်ဆေးခြင်း
+        fetch('/api')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('server-status').innerHTML = 
+                    `<b>Status:</b> <span style="color: #4ade80;">${data.status}</span><br><b>Message:</b> ${data.message}`;
+            })
+            .catch(err => {
+                document.getElementById('server-status').innerHTML = 
+                    `<span style="color: #f87171;">Server ချိတ်ဆက်မှု မအောင်မြင်ပါ။</span>`;
+            });
+
+        // AI ဖြင့် ပွဲခန့်မှန်းချက် ထုတ်ယူရန်
+        function getPrediction() {
+            const resultBox = document.getElementById('result-box');
+            const predictionText = document.getElementById('prediction-text');
+            
+            resultBox.style.display = 'block';
+            predictionText.innerHTML = "AI မှ ပွဲစဉ်များကို ခန့်မှန်းနေပါပြီ...";
+
+            setTimeout(() => {
+                predictionText.innerHTML = "ယနေ့ပွဲစဉ်: Manchester United vs Liverpool<br><b>ခန့်မှန်းချက်:</b> Man United အနိုင်ရရန် 55% ရာခိုင်နှုန်း ရှိပါသည်။";
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>
