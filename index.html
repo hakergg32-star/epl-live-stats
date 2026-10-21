@@ -91,15 +91,75 @@
 
         // AI ဖြင့် ပွဲခန့်မှန်းချက် ထုတ်ယူရန်
         function getPrediction() {
-            const resultBox = document.getElementById('result-box');
-            const predictionText = document.getElementById('prediction-text');
             
-            resultBox.style.display = 'block';
-            predictionText.innerHTML = "AI မှ ပွဲစဉ်များကို ခန့်မှန်းနေပါပြီ...";
+function getPrediction() {
+    const resultBox = document.getElementById('result-box');
+    const predictionText = document.getElementById('prediction-text');
 
-            setTimeout(() => {
-                predictionText.innerHTML = "ယနေ့ပွဲစဉ်: Manchester United vs Liverpool<br><b>ခန့်မှန်းချက်:</b> Man United အနိုင်ရရန် 55% ရာခိုင်နှုန်း ရှိပါသည်။";
-            }, 1000);
+    const teams = [
+        "Manchester United", "Liverpool",
+        "Arsenal", "Chelsea",
+        "Manchester City", "Tottenham",
+        "Real Madrid", "Barcelona",
+        "Bayern Munich", "PSG",
+        "Inter Milan", "AC Milan"
+    ];
+
+    const home = prompt(
+        "အိမ်ရှင်အသင်းကို ရွေးပါ:\n" +
+        teams.map((t, i) => (i + 1) + ". " + t).join("\n") +
+        "\n\nအသင်းနံပါတ် ရိုက်ထည့်ပါ"
+    );
+
+    if (home === null) return;
+
+    const homeIndex = Number(home) - 1;
+
+    if (!Number.isInteger(homeIndex) ||
+        homeIndex < 0 || homeIndex >= teams.length) {
+        alert("အသင်းနံပါတ် မှန်မှန်ထည့်ပါ");
+        return;
+    }
+
+    const awayTeams = teams.filter(
+        (t, i) => i !== homeIndex
+    );
+
+    const away = prompt(
+        "ဧည့်သည်အသင်းကို ရွေးပါ:\n" +
+        awayTeams.map((t, i) => (i + 1) + ". " + t).join("\n") +
+        "\n\nအသင်းနံပါတ် ရိုက်ထည့်ပါ"
+    );
+
+    if (away === null) return;
+
+    const awayIndex = Number(away) - 1;
+
+    if (!Number.isInteger(awayIndex) ||
+        awayIndex < 0 || awayIndex >= awayTeams.length) {
+        alert("အသင်းနံပါတ် မှန်မှန်ထည့်ပါ");
+        return;
+    }
+
+    const awayTeam = awayTeams[awayIndex];
+
+    const homeChance = Math.floor(Math.random() * 31) + 35;
+    const awayChance = Math.floor(Math.random() * (66 - homeChance));
+    const drawChance = 100 - homeChance - awayChance;
+
+    resultBox.style.display = 'block';
+
+    predictionText.innerHTML =
+        "ပွဲစဉ်: " + teams[homeIndex] +
+        " vs " + awayTeam +
+        "<br><br><b>စမ်းသပ်ခန့်မှန်းချက်</b><br>" +
+        teams[homeIndex] + " နိုင်နိုင်ခြေ: " + homeChance + "%<br>" +
+        "သရေကျနိုင်ခြေ: " + drawChance + "%<br>" +
+        awayTeam + " နိုင်နိုင်ခြေ: " + awayChance + "%<br><br>" +
+        "<small>ဤရလဒ်သည် ကျပန်းထုတ်ပေးသော Demo ဖြစ်ပြီး " +
+        "တကယ့် AI ခန့်မှန်းချက် မဟုတ်ပါ။</small>";
+}
+
         }
     </script>
 
